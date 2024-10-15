@@ -1,6 +1,11 @@
 package com.pluralsight;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -60,6 +65,8 @@ public class FinancialTracker {
         // For example: 2023-04-15|10:13:25|ergonomic keyboard|Amazon|-89.50
         // After reading all the transactions, the file should be closed.
         // If any errors occur, an appropriate error message should be displayed.
+
+
     }
 
     private static void addDeposit(Scanner scanner) {
@@ -68,6 +75,40 @@ public class FinancialTracker {
         // The amount should be a positive number.
         // After validating the input, a new `Transaction` object should be created with the entered values.
         // The new deposit should be added to the `transactions` ArrayList.
+
+        LocalDate date = null;
+        LocalTime time = null;
+        String description = null;
+        String vendor = null;
+        double amount = 0;
+
+        try {
+            System.out.print("Enter the date of the deposit (yyyy-MM-dd): ");
+            date = LocalDate.parse(scanner.nextLine().trim());
+
+            System.out.print("Enter the time of the deposit (HH:mm:ss)");
+            time = LocalTime.parse(scanner.nextLine().trim());
+
+            System.out.print("Enter the description: ");
+            description = scanner.nextLine().trim();
+
+            System.out.print("Enter the vendor name: ");
+            vendor = scanner.nextLine().trim();
+
+            System.out.print("Enter the amount: ");
+            amount = scanner.nextDouble();
+            scanner.nextLine();
+
+            if (amount <= 0) {
+                System.out.println("ERROR: Cannot enter value less than 1.");
+                return;
+            }
+        } catch (Exception e) {
+            System.err.println("ERROR occurred while entering deposit.");
+            return;
+        }
+
+        transactions.add(new Transaction(date, time, description, vendor, amount));
     }
 
     private static void addPayment(Scanner scanner) {
@@ -116,16 +157,33 @@ public class FinancialTracker {
     private static void displayLedger() {
         // This method should display a table of all transactions in the `transactions` ArrayList.
         // The table should have columns for date, time, description, vendor, and amount.
+
+        System.out.println("Here's a table of all transactions:");
+        System.out.println("\ndate | time | description | vendor | amount\n");
+
+        for (Transaction transaction : transactions) System.out.println(transaction.toString());
     }
 
     private static void displayDeposits() {
         // This method should display a table of all deposits in the `transactions` ArrayList.
         // The table should have columns for date, time, description, vendor, and amount.
+
+        System.out.println("Here's a list of all deposits:");
+        System.out.println("\ndate | time | description | vendor | amount\n");
+
+        for (Transaction transaction : transactions)
+            if (transaction.getAmount() > 0) System.out.println(transaction.toString());
     }
 
     private static void displayPayments() {
         // This method should display a table of all payments in the `transactions` ArrayList.
         // The table should have columns for date, time, description, vendor, and amount.
+
+        System.out.println("Here's a list of all payments:");
+        System.out.println("\ndate | time | description | vendor | amount\n");
+
+        for (Transaction transaction : transactions)
+            if (transaction.getAmount() < 0) System.out.println(transaction.toString());
     }
 
     private static void reportsMenu(Scanner scanner) {
@@ -175,6 +233,14 @@ public class FinancialTracker {
         // The method loops through the transactions list and checks each transaction's date against the date range.
         // Transactions that fall within the date range are printed to the console.
         // If no transactions fall within the date range, the method prints a message indicating that there are no results.
+
+        System.out.println("Transactions between " + startDate + " - " + endDate + ":\n");
+
+        for (Transaction transaction : transactions) {
+            if (transaction.getDate().isAfter(startDate) && transaction.getDate().isBefore(endDate)) {
+                System.out.println(transaction.toString());
+            }
+        }
     }
 
     private static void filterTransactionsByVendor(String vendor) {
