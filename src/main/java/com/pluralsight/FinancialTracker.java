@@ -66,7 +66,19 @@ public class FinancialTracker {
         // After reading all the transactions, the file should be closed.
         // If any errors occur, an appropriate error message should be displayed.
 
+        String input;
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
+            while ((input = bufferedReader.readLine()) != null) {
 
+                String[] strings = input.split("\\|");
+
+                transactions.add(new Transaction(LocalDate.parse(strings[0]), LocalTime.parse(strings[1]),
+                        strings[2], strings[3], Double.parseDouble(strings[4])));
+            }
+        } catch (IOException e) {
+            System.err.println("ERROR while reading the file.");
+        }
     }
 
     private static void addDeposit(Scanner scanner) {
@@ -117,6 +129,40 @@ public class FinancialTracker {
         // The amount received should be a positive number then transformed to a negative number.
         // After validating the input, a new `Transaction` object should be created with the entered values.
         // The new payment should be added to the `transactions` ArrayList.
+
+        LocalDate date = null;
+        LocalTime time = null;
+        String description = null;
+        String vendor = null;
+        double amount = 0;
+
+        try {
+            System.out.print("Enter the date of the payment (yyyy-MM-dd): ");
+            date = LocalDate.parse(scanner.nextLine().trim());
+
+            System.out.print("Enter the time of the payment (HH:mm:ss)");
+            time = LocalTime.parse(scanner.nextLine().trim());
+
+            System.out.print("Enter the description: ");
+            description = scanner.nextLine().trim();
+
+            System.out.print("Enter the vendor name: ");
+            vendor = scanner.nextLine().trim();
+
+            System.out.print("Enter the amount: ");
+            amount = scanner.nextDouble();
+            scanner.nextLine();
+
+            if (amount >= 0) {
+                System.out.println("ERROR: Cannot enter value greater than or equal to 0.");
+                return;
+            }
+        } catch (Exception e) {
+            System.err.println("ERROR occurred while entering payment.");
+            return;
+        }
+
+        transactions.add(new Transaction(date, time, description, vendor, amount));
     }
 
     private static void ledgerMenu(Scanner scanner) {
