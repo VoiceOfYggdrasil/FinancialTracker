@@ -170,7 +170,7 @@ public class FinancialTracker {
         while (running) {
             System.out.println("Ledger");
             System.out.println("Choose an option:");
-            System.out.println("A) A`ll");
+            System.out.println("A) All");
             System.out.println("D) Deposits");
             System.out.println("P) Payments");
             System.out.println("R) Reports");
@@ -205,7 +205,7 @@ public class FinancialTracker {
         // The table should have columns for date, time, description, vendor, and amount.
 
         System.out.println("Here's a table of all transactions:");
-        System.out.println("\ndate | time | description | vendor | amount\n");
+        System.out.println("\nDate | Time | Description | Vendor | Amount\n");
 
         for (Transaction transaction : transactions) System.out.println(transaction.toString());
     }
@@ -215,7 +215,7 @@ public class FinancialTracker {
         // The table should have columns for date, time, description, vendor, and amount.
 
         System.out.println("Here's a list of all deposits:");
-        System.out.println("\ndate | time | description | vendor | amount\n");
+        System.out.println("\nDate | Time | Description | Vendor | Amount\n");
 
         for (Transaction transaction : transactions)
             if (transaction.getAmount() > 0) System.out.println(transaction.toString());
@@ -226,7 +226,7 @@ public class FinancialTracker {
         // The table should have columns for date, time, description, vendor, and amount.
 
         System.out.println("Here's a list of all payments:");
-        System.out.println("\ndate | time | description | vendor | amount\n");
+        System.out.println("\nDate | Time | Description | Vendor | Amount\n");
 
         for (Transaction transaction : transactions)
             if (transaction.getAmount() < 0) System.out.println(transaction.toString());
@@ -285,6 +285,8 @@ public class FinancialTracker {
         for (Transaction transaction : transactions) {
             if (transaction.getDate().isAfter(startDate) && transaction.getDate().isBefore(endDate)) {
                 System.out.println(transaction.toString());
+            } else {
+                System.out.println("ERROR: No entries found.");
             }
         }
     }
@@ -295,5 +297,15 @@ public class FinancialTracker {
         // The method loops through the transactions list and checks each transaction's vendor name against the specified vendor name.
         // Transactions with a matching vendor name are printed to the console.
         // If no transactions match the specified vendor name, the method prints a message indicating that there are no results.
+
+        System.out.println("Transactions by \"" + vendor + "\" : \n");
+
+        for (Transaction transaction : transactions) {
+            if (transaction.getVendor().equalsIgnoreCase(vendor)) {
+                System.out.println(transaction.toString());
+            } else {
+                System.out.println("ERROR: No entries found.");
+            }
+        }
     }
 }
