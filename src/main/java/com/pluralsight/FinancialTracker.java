@@ -1,9 +1,6 @@
 package com.pluralsight;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -71,10 +68,11 @@ public class FinancialTracker {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
             while ((input = bufferedReader.readLine()) != null) {
 
-                String[] strings = input.split("\\|");
+                String[] receipts = input.split("\\|");
 
-                transactions.add(new Transaction(LocalDate.parse(strings[0]), LocalTime.parse(strings[1]),
-                        strings[2], strings[3], Double.parseDouble(strings[4])));
+                //This formatting method makes way more sense to me than the last one (neighborhoodLibrary)
+                transactions.add(new Transaction(LocalDate.parse(receipts[0]), LocalTime.parse(receipts[1]),
+                        receipts[2], receipts[3], Double.parseDouble(receipts[4])));
             }
         } catch (IOException e) {
             System.err.println("ERROR while reading the file.");
@@ -98,7 +96,7 @@ public class FinancialTracker {
             System.out.print("Enter the date of the deposit (yyyy-MM-dd): ");
             date = LocalDate.parse(scanner.nextLine().trim());
 
-            System.out.print("Enter the time of the deposit (HH:mm:ss)");
+            System.out.print("Enter the time of the deposit (HH:mm:ss): ");
             time = LocalTime.parse(scanner.nextLine().trim());
 
             System.out.print("Enter the description: ");
@@ -115,6 +113,18 @@ public class FinancialTracker {
                 System.out.println("ERROR: Cannot enter value less than 1.");
                 return;
             }
+
+            Transaction transaction = new Transaction(date, time, description, vendor, amount);
+            transactions.add(transaction);
+
+            //Making sure I use 'true' so it actually saves the entry
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FILE_NAME, true));
+            bufferedWriter.write(transaction.toString());
+            bufferedWriter.newLine();
+            bufferedWriter.close();
+
+            System.out.println("Deposit of $" + amount + " successfully processed.");
+
         } catch (Exception e) {
             System.err.println("ERROR occurred while entering deposit.");
             return;
@@ -140,7 +150,7 @@ public class FinancialTracker {
             System.out.print("Enter the date of the payment (yyyy-MM-dd): ");
             date = LocalDate.parse(scanner.nextLine().trim());
 
-            System.out.print("Enter the time of the payment (HH:mm:ss)");
+            System.out.print("Enter the time of the payment (HH:mm:ss): ");
             time = LocalTime.parse(scanner.nextLine().trim());
 
             System.out.print("Enter the description: ");
@@ -153,10 +163,23 @@ public class FinancialTracker {
             amount = scanner.nextDouble();
             scanner.nextLine();
 
-            if (amount >= 0) {
-                System.out.println("ERROR: Cannot enter value greater than or equal to 0.");
+            if (amount <= 0) {
+                System.out.println("ERROR: Cannot enter value less than or equal to 0.");
                 return;
             }
+
+            double amountNegative = amount * -1;
+
+            Transaction transaction = new Transaction(date, time, description, vendor, amountNegative);
+            transactions.add(transaction);
+
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FILE_NAME, true));
+            bufferedWriter.write(transaction.toString());
+            bufferedWriter.newLine();
+            bufferedWriter.close();
+
+            System.out.println("Payment of $" + amount + " successfully processed.");
+
         } catch (Exception e) {
             System.err.println("ERROR occurred while entering payment.");
             return;
@@ -256,7 +279,6 @@ public class FinancialTracker {
                 case "3":
                     // Generate a report for all transactions within the current year,
                     // including the date, time, description, vendor, and amount for each transaction.
-
                 case "4":
                     // Generate a report for all transactions within the previous year,
                     // including the date, time, description, vendor, and amount for each transaction.
