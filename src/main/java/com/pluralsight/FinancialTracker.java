@@ -2,8 +2,11 @@ package com.pluralsight;
 
 import java.io.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -15,6 +18,7 @@ public class FinancialTracker {
     private static final String TIME_FORMAT = "HH:mm:ss";
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_FORMAT);
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern(TIME_FORMAT);
+    private static final LocalDateTime NOW = LocalDateTime.now();
 
     public static void main(String[] args) {
         loadTransactions(FILE_NAME);
@@ -118,19 +122,16 @@ public class FinancialTracker {
             transactions.add(transaction);
 
             //Making sure I use 'true' so it actually saves the entry
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FILE_NAME, true));
-            bufferedWriter.write(transaction.toString());
-            bufferedWriter.newLine();
-            bufferedWriter.close();
+//            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FILE_NAME, true));
+//            bufferedWriter.write(transaction.toString());
+//            bufferedWriter.newLine();
+//            bufferedWriter.close();
 
             System.out.println("Deposit of $" + amount + " successfully processed.");
 
         } catch (Exception e) {
             System.err.println("ERROR occurred while entering deposit.");
-            return;
         }
-
-        transactions.add(new Transaction(date, time, description, vendor, amount));
     }
 
     private static void addPayment(Scanner scanner) {
@@ -168,24 +169,23 @@ public class FinancialTracker {
                 return;
             }
 
+            //Make the amount negative because it's a payment.
             double amountNegative = amount * -1;
 
             Transaction transaction = new Transaction(date, time, description, vendor, amountNegative);
             transactions.add(transaction);
 
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FILE_NAME, true));
-            bufferedWriter.write(transaction.toString());
-            bufferedWriter.newLine();
-            bufferedWriter.close();
+            //True again, Mr. Bond.
+//            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FILE_NAME, true));
+//            bufferedWriter.write(transaction.toString());
+//            bufferedWriter.newLine();
+//            bufferedWriter.close();
 
             System.out.println("Payment of $" + amount + " successfully processed.");
 
         } catch (Exception e) {
             System.err.println("ERROR occurred while entering payment.");
-            return;
         }
-
-        transactions.add(new Transaction(date, time, description, vendor, amount));
     }
 
     private static void ledgerMenu(Scanner scanner) {
@@ -205,17 +205,22 @@ public class FinancialTracker {
                 case "A":
                     displayLedger();
                     break;
+
                 case "D":
                     displayDeposits();
                     break;
+
                 case "P":
                     displayPayments();
                     break;
+
                 case "R":
                     reportsMenu(scanner);
                     break;
+
                 case "H":
                     running = false;
+
                 default:
                     System.out.println("Invalid option");
                     break;
@@ -230,6 +235,7 @@ public class FinancialTracker {
         System.out.println("Here's a table of all transactions:");
         System.out.println("\nDate | Time | Description | Vendor | Amount\n");
 
+        //Just to keep things compact.
         for (Transaction transaction : transactions) System.out.println(transaction.toString());
     }
 
@@ -273,20 +279,38 @@ public class FinancialTracker {
                 case "1":
                     // Generate a report for all transactions within the current month,
                     // including the date, time, description, vendor, and amount for each transaction.
+                    filterTransactionsByDate(NOW.with(TemporalAdjusters.firstDayOfMonth()).toLocalDate(),
+                            LocalDate.from(NOW));
+
                 case "2":
                     // Generate a report for all transactions within the previous month,
                     // including the date, time, description, vendor, and amount for each transaction.
+                    filterTransactionsByDate(NOW.toLocalDate().minusMonths(1)
+                            .minusDays(NOW.getDayOfMonth()), NOW.toLocalDate().minusMonths(1)
+                            .with(TemporalAdjusters.lastDayOfMonth()));
+
                 case "3":
                     // Generate a report for all transactions within the current year,
                     // including the date, time, description, vendor, and amount for each transaction.
+                    filterTransactionsByDate(NOW.toLocalDate().with(TemporalAdjusters.firstDayOfYear()), NOW.toLocalDate());
+
                 case "4":
                     // Generate a report for all transactions within the previous year,
                     // including the date, time, description, vendor, and amount for each transaction.
+                    filterTransactionsByDate(NOW.with(TemporalAdjusters.firstDayOfYear())
+                            .toLocalDate().minusYears(1),
+                            NOW.with(TemporalAdjusters.firstDayOfYear()).toLocalDate());
+
                 case "5":
                     // Prompt the user to enter a vendor name, then generate a report for all transactions
                     // with that vendor, including the date, time, description, vendor, and amount for each transaction.
+                    System.out.print("Enter the Vendor name you want to look for: ");
+                    String vendorSearch = scanner.nextLine();
+                    filterTransactionsByVendor(vendorSearch);
+
                 case "0":
                     running = false;
+
                 default:
                     System.out.println("Invalid option");
                     break;
@@ -309,6 +333,7 @@ public class FinancialTracker {
                 System.out.println(transaction.toString());
             } else {
                 System.out.println("ERROR: No entries found.");
+                return;
             }
         }
     }
@@ -327,6 +352,7 @@ public class FinancialTracker {
                 System.out.println(transaction.toString());
             } else {
                 System.out.println("ERROR: No entries found.");
+                return;
             }
         }
     }
