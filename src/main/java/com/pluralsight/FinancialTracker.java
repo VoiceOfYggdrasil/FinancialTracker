@@ -281,6 +281,7 @@ public class FinancialTracker {
                     // including the date, time, description, vendor, and amount for each transaction.
                     filterTransactionsByDate(NOW.with(TemporalAdjusters.firstDayOfMonth()).toLocalDate(),
                             LocalDate.from(NOW));
+                    break;
 
                 case "2":
                     // Generate a report for all transactions within the previous month,
@@ -288,11 +289,13 @@ public class FinancialTracker {
                     filterTransactionsByDate(NOW.toLocalDate().minusMonths(1)
                             .minusDays(NOW.getDayOfMonth()), NOW.toLocalDate().minusMonths(1)
                             .with(TemporalAdjusters.lastDayOfMonth()));
+                    break;
 
                 case "3":
                     // Generate a report for all transactions within the current year,
                     // including the date, time, description, vendor, and amount for each transaction.
                     filterTransactionsByDate(NOW.toLocalDate().with(TemporalAdjusters.firstDayOfYear()), NOW.toLocalDate());
+                    break;
 
                 case "4":
                     // Generate a report for all transactions within the previous year,
@@ -300,6 +303,7 @@ public class FinancialTracker {
                     filterTransactionsByDate(NOW.with(TemporalAdjusters.firstDayOfYear())
                             .toLocalDate().minusYears(1),
                             NOW.with(TemporalAdjusters.firstDayOfYear()).toLocalDate());
+                    break;
 
                 case "5":
                     // Prompt the user to enter a vendor name, then generate a report for all transactions
@@ -307,6 +311,7 @@ public class FinancialTracker {
                     System.out.print("Enter the Vendor name you want to look for: ");
                     String vendorSearch = scanner.nextLine();
                     filterTransactionsByVendor(vendorSearch);
+                    break;
 
                 case "0":
                     running = false;
@@ -332,7 +337,7 @@ public class FinancialTracker {
             if (transaction.getDate().isAfter(startDate) && transaction.getDate().isBefore(endDate)) {
                 System.out.println(transaction.toString());
             } else {
-                System.out.println("ERROR: No entries found.");
+                System.out.println("Error: no entries.");
                 return;
             }
         }
@@ -351,7 +356,7 @@ public class FinancialTracker {
             if (transaction.getVendor().equalsIgnoreCase(vendor)) {
                 System.out.println(transaction.toString());
             } else {
-                System.out.println("ERROR: No entries found.");
+                System.out.println("Error: no entries.");
                 return;
             }
         }
