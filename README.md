@@ -1,6 +1,6 @@
-# Project Title
+# Financial Tracker
 
-## Description of the Project
+## A Brief Synopsis
 
 The **Financial Tracker** application allows users to report deposits (positive) and payments (negative) to a ledger of transactions, stored as a .CSV file.
 Users are also able to view reports on those transactions. Every entry added by users is stored to the file, creating a cumulative list.
@@ -16,8 +16,6 @@ Users are also able to view reports on those transactions. Every entry added by 
     - Previous Year
     - Filter by specific vendor name
 - **transactions.csv**: This file is where all the information is stored, and each entry put in by users is added to the list.
-
-![Class Diagram](path/to/your/class_diagram.png)
 
 ## User Stories
 
@@ -49,26 +47,49 @@ Follow these steps to get your application running within IntelliJ IDEA:
 
 ## Technologies Used
 
-- Java: JDK 17.
-- Any additional libraries or frameworks used in the project.
+**Java Version**: 
+- JDK 17.
+
+**Additional Libraries Used**:
+- java.io.*;
+- java.time.LocalDate;
+- java.time.LocalDateTime;
+- java.time.LocalTime;
+- java.time.format.DateTimeFormatter;
+- java.time.temporal.TemporalAdjusters;
+- java.util.ArrayList;
+- java.util.Scanner;
 
 ## Demo
 
 Here's a few screenshots to demonstrate various aspects of the application:
 
 **Adding A Deposit**
+
 ![AddDepositMethod.png](images/AddDepositMethod.png)
+
 **Adding A Payment (and handling an input error)**
+
 ![AddPaymentMethod.png](images/AddPaymentMethod.png)
+
 **Load All Transactions**
+
 ![LoadTransactions.png](images/LoadTransactions.png)
+
 **Show Just Deposits**
+
 ![DepositTransactions.png](images/DepositTransactions.png)
+
 **Show Just Payments**
+
 ![PaymentTransactions.png](images/PaymentTransactions.png)
+
 **Filtering By Date**
+
 ![FilterByDate.png](images/FilterByDate.png)
+
 **Filtering By Vendor Name**
+
 ![FilterByVendor.png](images/FilterByVendor.png)
 
 ## Future Work
