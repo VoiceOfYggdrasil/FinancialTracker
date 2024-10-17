@@ -22,7 +22,9 @@ public class Transaction {
 
     @Override
     public String toString() {
-        return date + " | " + time + " | " + description + " | " + vendor + " | " + amount;
+        // Previous formatting method didn't allow for 2 decimal places for the amount.
+        //return date + " | " + time + " | " + description + " | " + vendor + " | " + amount;
+        return String.format("%s|%s|%s|%s|%.2f", date, time, description, vendor, amount);
     }
 
     public LocalDate getDate() {
