@@ -2,16 +2,31 @@
 
 ## Description of the Project
 
-Briefly describe what this Java console application does. Mention its purpose and who the intended users are. Explain the main functionality and what problems it aims to solve.
+The **Financial Tracker** application allows users to report deposits (positive) and payments (negative) to a ledger of transactions, stored as a .CSV file.
+Users are also able to view reports on those transactions. Every entry added by users is stored to the file, creating a cumulative list.
+
+### Funcionality:
+- **Add Deposits**: A function wherein users enter details of a transaction (date, time, description, vendor, amount) to the deposits list.
+- **Add Payments**: A similar function that asks for the same information, but is logged in the ledger as a negative amount, as it is a payment.
+- **Ledger**: A submenu where users can view the ledger as a full list of all transactions, or can filter to only see deposits or payments.
+- **Reports**: Another submenu where users can generate reports filtered by different criteria:
+    - Month-To-Date
+    - Previous Month
+    - Year-To-Date
+    - Previous Year
+    - Filter by specific vendor name
+- **transactions.csv**: This file is where all the information is stored, and each entry put in by users is added to the list.
 
 ![Class Diagram](path/to/your/class_diagram.png)
 
 ## User Stories
 
-List the user stories that guided the development of your application. Format these stories as: "As a [type of user], I want [some goal] so that [some reason]."
+The user stories I used to aid in the development are as follows:
 
-- As a user, I want to be able to input my data, so that the application can process it accordingly.
-- As a user, I want to receive immediate feedback, so I can understand what to do next.
+- As a Customer, I want to have a navigable Home Screen so that I can have a good user experience.
+- As a Customer, I want to make Deposits and Payments, so that I can log the entries into a ledger.
+- As a Customer, I want to see a Ledger menu/screen, so that I can see neatly compiled data of transactions.
+- As a Customer, I want a navigable Reports menu, so that I can see the filtered data of transactions.
 
 ## Setup
 
@@ -30,11 +45,11 @@ Follow these steps to get your application running within IntelliJ IDEA:
 2. Select "Open" and navigate to the directory where you cloned or downloaded the project.
 3. After the project opens, wait for IntelliJ to index the files and set up the project.
 4. Find the main class with the `public static void main(String[] args)` method.
-5. Right-click on the file and select 'Run 'YourMainClassName.main()'' to start the application.
+5. Right-click on the file and select 'Run 'FinancialTracker.main()'' to start the application.
 
 ## Technologies Used
 
-- Java: Mention the version you are using.
+- Java: JDK 17.
 - Any additional libraries or frameworks used in the project.
 
 ## Demo
@@ -42,29 +57,21 @@ Follow these steps to get your application running within IntelliJ IDEA:
 Include screenshots or GIFs that show your application in action. Use tools like [Giphy Capture](https://giphy.com/apps/giphycapture) to record a GIF of your application.
 
 ![Application Screenshot](path/to/your/screenshot.png)
+![]
 
 ## Future Work
 
-Outline potential future enhancements or functionalities you might consider adding:
+Potential additions that could be implemented into this application:
 
-- Additional feature to be developed.
-- Improvement of current functionalities.
+- Making this into an application window so that navigation isn't done exclusively within IntelliJ.
+- Condensing the code, as it is rather bulky in some places.
+- Adding a calculator that compiles the totals of deposits/payments.
 
 ## Resources
 
-List resources such as tutorials, articles, or documentation that helped you during the project.
-
-- [Java Programming Tutorial](https://www.example.com)
-- [Effective Java](https://www.example.com)
-
-## Team Members
-
-- **Name 1** - Specific contributions or roles.
-- **Name 2** - Specific contributions or roles.
+To help in building this code, I referenced Stack Overflow to see how others have solved similar problems.
 
 ## Thanks
 
-Express gratitude towards those who provided help, guidance, or resources:
-
-- Thank you to [Mentor's Name] for continuous support and guidance.
-- A special thanks to all teammates for their dedication and teamwork.
+- Thank you to **Raymond** for helping me out when I genuinely struggled with the code logic, and for overall guidance.
+- **Carmen & Corrie** helped me out a good bit, and their collaboration was vital in me getting this code done without tearing my hair out.
