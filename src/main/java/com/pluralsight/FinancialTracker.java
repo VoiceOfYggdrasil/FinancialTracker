@@ -214,6 +214,7 @@ public class FinancialTracker {
 
         //Just to keep things compact.
         for (Transaction transaction : transactions) {
+            //Keeping toString to compare differences.
             //System.out.println(transaction.toString());
             System.out.println(transaction.getDate() + " | " + transaction.getTime() + " | "
             + transaction.getDescription() + " | " + transaction.getVendor() + " | " + transaction.getAmount());
