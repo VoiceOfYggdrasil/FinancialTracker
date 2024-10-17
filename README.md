@@ -54,11 +54,22 @@ Follow these steps to get your application running within IntelliJ IDEA:
 
 ## Demo
 
-Include screenshots or GIFs that show your application in action. Use tools like [Giphy Capture](https://giphy.com/apps/giphycapture) to record a GIF of your application.
+Here's a few screenshots to demonstrate various aspects of the application:
 
-![Application Screenshot](path/to/your/screenshot.png)
-![AddDepositMethod.png](C:\Users\aaron\OneDrive\Pictures\AddDepositMethod.png)
-
+**Adding A Deposit**
+![AddDepositMethod.png](images/AddDepositMethod.png)
+**Adding A Payment (and handling an input error)**
+![AddPaymentMethod.png](images/AddPaymentMethod.png)
+**Load All Transactions**
+![LoadTransactions.png](images/LoadTransactions.png)
+**Show Just Deposits**
+![DepositTransactions.png](images/DepositTransactions.png)
+**Show Just Payments**
+![PaymentTransactions.png](images/PaymentTransactions.png)
+**Filtering By Date**
+![FilterByDate.png](images/FilterByDate.png)
+**Filtering By Vendor Name**
+![FilterByVendor.png](images/FilterByVendor.png)
 
 ## Future Work
 
